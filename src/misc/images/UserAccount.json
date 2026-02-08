@@ -1,0 +1,40 @@
+{
+    "debts": [
+        {
+            "interest": 0.39,
+            "name": "Debted",
+            "value": 57963
+        },
+        {
+            "interest": 0.05,
+            "name": "Car Loan",
+            "value": 3000
+        }
+    ],
+    "receipts": [],
+    "month": 1,
+    "balance": 2003.5,
+    "sources": [
+        {
+            "name": "Jeff",
+            "value": 300
+        },
+        {
+            "name": "Free Bird",
+            "value": -3000
+        },
+        {
+            "name": "Work",
+            "value": 5000
+        },
+        {
+            "name": "Loch Ness",
+            "value": 3.5
+        }
+    ],
+    "spg": 0.5,
+    "savings": {
+        "balance": 500,
+        "interest": 0.05
+    }
+}
