@@ -29,6 +29,7 @@ public class EventTest {
         assertEquals("Test Event", e1.getDescription());
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     public void testEquals() {
         assertTrue(e1.equals(e2));
