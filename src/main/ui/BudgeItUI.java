@@ -143,15 +143,13 @@ public class BudgeItUI extends JFrame {
         inner.fill = GridBagConstraints.BOTH;
         try {
             // Updated to load from resources (works in JAR and IDE)
+            // This requires the file to be at: src/main/resources/images/gefraks.jpg
             java.io.InputStream imgStream = FilePathManager.getResourceAsStream("images/gefraks.jpg");
+            
             if (imgStream == null) {
-               // Fallback if not found in resources/images, try root or local file for backward compatibility during dev
-               File localFile = new File("./data/gefraks.jpg");
-               if (localFile.exists()) {
-                   imgStream = new java.io.FileInputStream(localFile);
-               } else {
-                   throw new IOException("Image not found in resources (images/gefraks.jpg) or local path (./data/gefraks.jpg)");
-               }
+                // If this throws, it means the build didn't copy the image into the JAR
+                // or the file isn't in src/main/resources/images/
+                throw new IOException("Resource not found in classpath: images/gefraks.jpg");
             }
             
             Image image = ImageIO.read(imgStream);

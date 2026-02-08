@@ -123,6 +123,13 @@ public class FilePathManager {
      */
     public static java.io.InputStream getResourceAsStream(String resourcePath) {
         ClassLoader classLoader = FilePathManager.class.getClassLoader();
-        return classLoader.getResourceAsStream(resourcePath);
+        java.io.InputStream stream = classLoader.getResourceAsStream(resourcePath);
+
+        if (stream == null) {
+            // Fallback: Try the structure found in some JAR builds (Artifacts including 'production' folder)
+            stream = classLoader.getResourceAsStream("production/Dont_Budge-It/" + resourcePath);
+        }
+
+        return stream;
     }
 }
