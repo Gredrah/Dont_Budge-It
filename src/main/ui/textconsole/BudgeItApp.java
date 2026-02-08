@@ -429,10 +429,6 @@ public class BudgeItApp {
         }
     }
 
-    private void pinAccess() {
-        // FUTURE IMPLEMENTATION REMINDER
-    }
-
     //EFFECTS: Prints out the user's current balance
     private void showBalance() {
         System.out.println("Here is your current account balance: ");
