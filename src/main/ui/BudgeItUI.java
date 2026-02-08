@@ -142,7 +142,23 @@ public class BudgeItUI extends JFrame {
         imagePanel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         inner.fill = GridBagConstraints.BOTH;
         try {
-            Image image = ImageIO.read(new File("./data/gefraks.jpg"));
+            // Updated to load from resources (works in JAR and IDE)
+            java.io.InputStream imgStream = FilePathManager.getResourceAsStream("images/gefraks.jpg");
+            if (imgStream == null) {
+               // Fallback if not found in resources/images, try root or local file for backward compatibility during dev
+               File localFile = new File("./data/gefraks.jpg");
+               if (localFile.exists()) {
+                   imgStream = new java.io.FileInputStream(localFile);
+               } else {
+                   throw new IOException("Image not found in resources (images/gefraks.jpg) or local path (./data/gefraks.jpg)");
+               }
+            }
+            
+            Image image = ImageIO.read(imgStream);
+            if (image == null) {
+                throw new IOException("Failed to decode image from stream");
+            }
+
             image = image.getScaledInstance(300, 300, 0);
             JLabel picLabel = new JLabel(new ImageIcon(image));
             JLabel picText = new JLabel("Sir Gerald Budge-It");
@@ -153,7 +169,8 @@ public class BudgeItUI extends JFrame {
             inner.gridy = 0;
             imagePanel.add(picText, inner);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            // Log error but don't crash app if image fails
+            System.err.println("Warning: Helper mascot could not be loaded: " + e.getMessage());
         }
         desktopMain.add(imagePanel, c);
     }
