@@ -45,7 +45,7 @@ public class BudgeItUI extends JFrame {
     private static final Dimension PREFERRED_SIZE = new Dimension(WIDTH / 4, HEIGHT - 300);
     private static final Dimension PREFERRED_BUTTON_SIZE = new Dimension(WIDTH / 4, HEIGHT - 600);
 
-    private final String saveLocation = "./data/UserAccount.json";
+    private final String saveLocation = FilePathManager.getSaveLocation();
 
     private Account userAccount;
     private final JFrame desktop;

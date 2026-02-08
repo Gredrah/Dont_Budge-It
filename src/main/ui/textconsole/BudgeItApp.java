@@ -8,6 +8,7 @@ import model.DebtAcc;
 import model.Source;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import ui.FilePathManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.Scanner;
 public class BudgeItApp {
     private Account userAccount;
     private Scanner input;
-    private final String saveLocation = "./data/UserAccount.json";
+    private final String saveLocation = FilePathManager.getSaveLocation();
 
     public BudgeItApp() {
         startBudgeIt();
