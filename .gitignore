@@ -86,7 +86,6 @@ $RECYCLE.BIN/
 # Vim
 *.swp
 *.swo
-*~
 
 # Temporary files
 *.tmp
