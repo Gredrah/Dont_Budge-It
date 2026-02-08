@@ -18,24 +18,50 @@ public class FilePathManager {
 
     /**
      * Gets the path where user data (UserAccount.json) should be saved.
-     * - If running from VS Code: uses ./data/
-     * - If packaged (JAR/EXE): uses ~/.budgeit/
+     * Checks if the file exists; if not, copies the default from the JAR resources.
      *
      * @return the save location path as a String
      */
     public static String getSaveLocation() {
-        // Check if we're running from VS Code (project root has "src" folder)
+        String path;
+
+        // Determine destination path
         if (isRunningFromProject()) {
-            // Ensure data folder exists in development mode
+            // Development: Use ./data/ folder
             try {
                 Files.createDirectories(Paths.get("./data"));
             } catch (IOException e) {
                 System.err.println("Could not create data folder: " + e.getMessage());
             }
-            return "./data/" + SAVE_FILE;
+            path = "./data/" + SAVE_FILE;
         } else {
-            // Running as packaged app - use home directory
-            return getAppDataFolder() + File.separator + SAVE_FILE;
+            // Production (JAR): Use file next to the JAR (Portable)
+            path = "./" + SAVE_FILE;
+        }
+
+        // Ensure the file exists (copy from JAR if missing)
+        ensureFileExists(path);
+
+        return path;
+    }
+
+    /**
+     * Checks if the data file exists at the path.
+     * If not, extracts the template 'UserAccount.json' from the JAR resources.
+     */
+    private static void ensureFileExists(String pathStr) {
+        File file = new File(pathStr);
+        if (!file.exists()) {
+            try (java.io.InputStream in = FilePathManager.class.getResourceAsStream("/" + SAVE_FILE)) {
+                if (in != null) {
+                    Files.copy(in, file.toPath());
+                    System.out.println("Created new save file from template: " + pathStr);
+                } else {
+                    System.err.println("Error: Could not find template " + SAVE_FILE + " in resources.");
+                }
+            } catch (IOException e) {
+                System.err.println("Error creating default save file: " + e.getMessage());
+            }
         }
     }
 
